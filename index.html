@@ -102,13 +102,13 @@
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .town-area { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .town-card { background-image: url('https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/card_bg.png'); background-size: cover; background-position: center; border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; cursor: pointer; transition: all 0.15s; text-align: center; }
-  .town-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+  .town-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); background-image: url('https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/scroll_bg.png'); background-size: cover; background-position: center; border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; cursor: pointer; transition: all 0.15s; text-align: center; }
+  .town-card:hover { border-color: var(--gold); filter: brightness(1.1); }
   .town-card .icon { font-size: 24px; margin-bottom: 2px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); }
   .town-card .name { color: #2a1800; font-weight: 900; font-size: 15px; text-shadow: 0 1px 0 rgba(255,220,120,0.5); }
   .town-card .desc { color: #5a3a08; font-size: 11px; margin-top: 2px; font-weight: bold; }
 
-  .area-card { background-image: url('https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/card_bg.png'); background-size: cover; background-position: center; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.15s; }
+  .area-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); background-image: url('https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/scroll_bg.png'); background-size: cover; background-position: center; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.15s; }
   .area-card:hover { border-color: var(--gold); }
   .area-card .area-icon { font-size: 24px; }
   .area-card .area-info { flex: 1; }
@@ -786,6 +786,7 @@ async function fbLoad() {
 
 window.onFirebaseAuthChanged = async (user) => {
   if (user) {
+    window._fbLoginTime = new Date();
     dbg('LOGIN: ' + user.displayName);
     const loaded = await fbLoad();
     if (!loaded) await fbSave();
@@ -928,11 +929,10 @@ function fbSubscribeDM() {
       const m = d.data();
       const isMe = m.uid === window._fbUser.uid;
       const time = m.ts ? new Date(m.ts.toDate()).toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'}) : '';
-      return '<div class="chat-msg" style="' + (isMe ? 'text-align:right' : '') + '">'
+      return '<div class="chat-msg">'
         + '<div class="cm-name ' + (isMe ? 'player' : 'npc') + '">' + escHtml(m.name)
         + ' <span style="color:var(--text3);font-size:10px">' + time + '</span></div>'
-        + '<div class="cm-text" style="' + (isMe ? 'background:rgba(201,168,76,0.1);' : '') + 'display:inline-block;max-width:85%">'
-        + escHtml(m.text) + '</div></div>';
+        + '<div class="cm-text" style="' + (isMe ? 'background:rgba(201,168,76,0.1);' : '') + '">' + escHtml(m.text) + '</div></div>';
     }).join('');
     win.scrollTop = win.scrollHeight;
   });
@@ -1018,21 +1018,22 @@ let _wcUnsub = null;
 function fbSubscribeWorldChat() {
   if (!window._fb || !window._fbUser) return;
   if (_wcUnsub) _wcUnsub();
-  const { db, collection, query, orderBy, limit, onSnapshot } = window._fb;
-  const q = query(collection(db, 'worldchat'), orderBy('ts', 'desc'), limit(30));
+  const { db, collection, query, orderBy, limit, onSnapshot, where } = window._fb;
+  // ログイン時刻以降のメッセージのみ表示
+  const loginTs = window._fbLoginTime || new Date();
+  const q = query(collection(db, 'worldchat'), orderBy('ts', 'asc'), where('ts', '>=', loginTs), limit(50));
   _wcUnsub = onSnapshot(q, (snap) => {
-    const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() })).reverse();
+    const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     const win = document.getElementById('wc-window');
     if (!win) return;
     win.innerHTML = msgs.map(m => {
       const isMe = m.uid === window._fbUser?.uid;
       const time = m.ts ? new Date(m.ts.toDate()).toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'}) : '';
       const nameClickable = (!isMe) ? ' style="cursor:pointer;text-decoration:underline dotted" onclick="openUserProfile(\'' + m.uid + '\')"' : '';
-      return '<div class="chat-msg" style="' + (isMe ? 'text-align:right' : '') + '">'
-        + '<span class="cm-name ' + (isMe ? 'player' : 'npc') + '"' + nameClickable + '>'
-        + escHtml(m.name) + ' <span style="color:var(--text3);font-size:10px">' + time + '</span></span>'
-        + '<div class="cm-text" style="' + (isMe ? 'background:rgba(201,168,76,0.1);' : '')
-        + 'display:inline-block;max-width:85%">' + escHtml(m.text) + '</div></div>';
+      return '<div class="chat-msg">'
+        + '<div class="cm-name ' + (isMe ? 'player' : 'npc') + '"' + nameClickable + '>'
+        + escHtml(m.name) + ' <span style="color:var(--text3);font-size:10px">' + time + '</span></div>'
+        + '<div class="cm-text" style="' + (isMe ? 'background:rgba(201,168,76,0.1);' : '') + '">' + escHtml(m.text) + '</div></div>';
     }).join('');
     win.scrollTop = win.scrollHeight;
   });
