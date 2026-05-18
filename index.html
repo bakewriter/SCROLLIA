@@ -1125,19 +1125,6 @@ async function fbBazaarCancel(docId) {
   saveGame();
 }
 
-async function fbRedeemCode(code) {
-  if (!window._fbUser || !window._fb) { alert('ログインが必要です'); return false; }
-  try {
-    const { db, collection, query, where, getDocs, updateDoc } = window._fb;
-    const q = query(collection(db, 'serial_codes'), where('code', '==', code), where('used', '==', false));
-    const snap = await getDocs(q);
-    if (snap.empty) return false;
-    const docRef = snap.docs[0].ref;
-    const data = snap.docs[0].data();
-    await updateDoc(docRef, { used: true, usedBy: window._fbUser.uid, usedAt: Date.now() });
-    return data.feature || 'auto_farm';
-  } catch(e) { dbg('REDEEM ERROR: ' + e.message); return false; }
-}
 
 function saveGame() {
   localStorage.setItem('scroll_chronicle_save', JSON.stringify(S));
@@ -2623,11 +2610,10 @@ function escHtml(s) {
 
 Object.assign(window, {
   switchTab, startExplore, useScroll, fleeCombat, renderExplore, dbg,
-  fbLogin, fbLogout, fbRedeemCode, fbLoadLoginInfo,
+  fbLogin, fbLogout, fbLoadLoginInfo,
   openUserProfile, openDM, dmSend,
   buyScroll, buyEquip, buySummonStone,
   renderBazaar, postBazaar, fbBazaarBuy, fbBazaarCancel, fbBazaarPost, fbSubscribeBazaar,
-  openGiftModal: () => {}, closeGiftModal: () => {},
   buyMerchantItem,
   renderStatus, unequip, openEquipModal, closeEquipModal, equipItem,
   redeemCode, resetGame, wcSend, useMagicBullet, renderStageList, showResult,
