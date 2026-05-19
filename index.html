@@ -102,19 +102,19 @@
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .town-area { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .town-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); background-image: url('https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/scroll_bg.png'); background-size: cover; background-position: center; border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; cursor: pointer; transition: all 0.15s; text-align: center; }
-  .town-card:hover { border-color: var(--gold); filter: brightness(1.1); }
-  .town-card .icon { font-size: 24px; margin-bottom: 2px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); }
-  .town-card .name { color: #2a1800; font-weight: 900; font-size: 15px; text-shadow: 0 1px 0 rgba(255,220,120,0.5); }
-  .town-card .desc { color: #5a3a08; font-size: 11px; margin-top: 2px; font-weight: bold; }
+  .town-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); border: 1px solid var(--border); border-radius: 6px; padding: 12px 8px; cursor: pointer; transition: all 0.15s; text-align: center; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .town-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+  .town-card .icon { font-size: 22px; margin-bottom: 2px; }
+  .town-card .name { color: var(--gold); font-weight: 900; font-size: 14px; white-space: nowrap; }
+  .town-card .desc { color: var(--text2); font-size: 11px; margin-top: 2px; white-space: nowrap; }
 
-  .area-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); background-image: url('https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/scroll_bg.png'); background-size: cover; background-position: center; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.15s; }
+  .area-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.15s; }
   .area-card:hover { border-color: var(--gold); }
   .area-card .area-icon { font-size: 24px; }
   .area-card .area-info { flex: 1; }
-  .area-card .area-name { color: #2a1800; font-weight: 900; font-size: 13px; text-shadow: 0 1px 0 rgba(255,220,120,0.5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .area-card .area-desc { color: #5a3a08; font-size: 11px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .area-card .area-lv { color: #7a5020; font-size: 10px; font-weight: bold; }
+  .area-card .area-name { color: var(--gold); font-weight: 900; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .area-card .area-desc { color: var(--text2); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .area-card .area-lv { color: var(--text3); font-size: 10px; }
 
   .combat-top { display: flex; gap: 10px; margin-bottom: 10px; }
   .combatant { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 10px; text-align: center; }
@@ -646,37 +646,37 @@ const AREAS = {
     normal:['wyvern','flame_wyvern','cultist','cultist_officer'], rare:'vice_priest', superRare:'high_priest', boss:'shadow_wyvern' },
 };
 
-const PLAYER_IMAGE = 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/player.png';
+const PLAYER_IMAGE = 'https://bakewriter.github.io/SCROLLIA/assets/images/player.png';
 
 const MONSTER_IMAGES = {
-  slime: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/slime.png',
-  giant_spider: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/giant_spider.png',
-  forest_lizard: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/forest_lizard.png',
-  bandit: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/bandit.png',
-  bandit_chief: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/bandit_chief.png',
-  man_eater: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/man_eater.png',
-  poison_bat: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/poison_bat.png',
-  troll: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/troll.png',
-  goblin: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/goblin.png',
-  canary: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/canary.png',
-  golem: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/golem.png',
-  metal_golem: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/metal_golem.png',
-  rare_metal_golem: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/rare_metal_golem.png',
-  goblin_king: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/goblin_king.png',
-  rogue_mage: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/rogue_mage.png',
-  guardian_golem: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/guardian_golem.png',
-  flame_shadow: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/flame_shadow.png',
-  mage_goblin: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/mage_goblin.png',
-  charmed_mage: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/charmed_mage.png',
-  forbidden_tome: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/forbidden_tome.png',
-  fallen_king: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/fallen_king.png',
-  wyvern: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/wyvern.png',
-  flame_wyvern: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/flame_wyvern.png',
-  cultist: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/cultist.png',
-  cultist_officer: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/cultist_officer.png',
-  vice_priest: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/vice_priest.png',
-  high_priest: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/high_priest.png',
-  shadow_wyvern: 'https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/monsters/shadow_wyvern.png',
+  slime: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/slime.png',
+  giant_spider: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/giant_spider.png',
+  forest_lizard: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/forest_lizard.png',
+  bandit: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/bandit.png',
+  bandit_chief: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/bandit_chief.png',
+  man_eater: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/man_eater.png',
+  poison_bat: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/poison_bat.png',
+  troll: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/troll.png',
+  goblin: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/goblin.png',
+  canary: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/canary.png',
+  golem: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/golem.png',
+  metal_golem: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/metal_golem.png',
+  rare_metal_golem: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/rare_metal_golem.png',
+  goblin_king: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/goblin_king.png',
+  rogue_mage: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/rogue_mage.png',
+  guardian_golem: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/guardian_golem.png',
+  flame_shadow: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/flame_shadow.png',
+  mage_goblin: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/mage_goblin.png',
+  charmed_mage: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/charmed_mage.png',
+  forbidden_tome: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/forbidden_tome.png',
+  fallen_king: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/fallen_king.png',
+  wyvern: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/wyvern.png',
+  flame_wyvern: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/flame_wyvern.png',
+  cultist: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/cultist.png',
+  cultist_officer: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/cultist_officer.png',
+  vice_priest: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/vice_priest.png',
+  high_priest: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/high_priest.png',
+  shadow_wyvern: 'https://bakewriter.github.io/SCROLLIA/assets/images/monsters/shadow_wyvern.png',
 };
 
 // NPC固定出品（バザー）
@@ -1315,22 +1315,22 @@ function renderTown() {
         <div class="name">探索</div><div class="desc">ダンジョンへ出発</div>
       </div>
       <div class="town-card" onclick="switchTab('shop')">
-        <div class="name">ショップ</div><div class="desc">装備・スクロール購入</div>
+        <div class="name">ショップ</div><div class="desc">装備・スクロール</div>
       </div>
       <div class="town-card" onclick="goSummon()" style="${!summonUnlocked ? 'opacity:0.4;cursor:not-allowed' : ''}">
         <div class="name">召喚</div><div class="desc">${summonUnlocked ? 'ペットを召喚・育成' : '竜の聖域クリアで解放'}</div>
       </div>
       <div class="town-card" onclick="switchTab('status')">
-        <div class="name">ステータス</div><div class="desc">装備・ステータス確認</div>
+        <div class="name">ステータス</div><div class="desc">装備・ステータス</div>
       </div>
       <div class="town-card" onclick="switchTab('bazaar')">
         <div class="name">バザー</div><div class="desc">PtoPマーケット</div>
       </div>
       <div class="town-card" onclick="switchTab('scrolls')">
-        <div class="name">スクロール</div><div class="desc">所持スクロール一覧</div>
+        <div class="name">スクロール</div><div class="desc">スクロール一覧</div>
       </div>
       <div class="town-card" onclick="switchTab('chat')">
-        <div class="name">行商人</div><div class="desc">12時間ごとに商品入れ替え</div>
+        <div class="name">行商人</div><div class="desc">12h毎に入れ替え</div>
       </div>
     </div>
     <div style="margin-top:12px">
@@ -2629,7 +2629,7 @@ Object.assign(window, {
 loadGame();
 render();
 
-const _LOGO_URL = "https://raw.githubusercontent.com/bakewriter/SCROLLIA/main/assets/images/logo.png";
+const _LOGO_URL = "https://bakewriter.github.io/SCROLLIA/assets/images/logo.png";
 const _logoEl = document.getElementById("logo");
 const _loginLogoEl = document.getElementById("login-logo");
 if (_logoEl) _logoEl.src = _LOGO_URL;
