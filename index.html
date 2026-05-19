@@ -362,6 +362,24 @@
   </div>
 </div>
 
+
+<div class="modal-overlay" id="gender-modal">
+  <div class="modal" style="text-align:center">
+    <div class="modal-title">⚔️ 見た目を選んでください</div>
+    <div style="color:var(--text2);font-size:12px;margin-bottom:16px">あとから変更はできません</div>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <div onclick="selectGender('m')" style="cursor:pointer;border:2px solid var(--border);border-radius:8px;padding:8px;transition:all 0.15s;width:140px" id="gender-m">
+        <img src="https://bakewriter.github.io/SCROLLIA/assets/images/player_m.png" style="width:120px;height:120px;object-fit:contain;image-rendering:pixelated">
+        <div style="color:var(--gold);font-weight:bold;margin-top:6px">男性</div>
+      </div>
+      <div onclick="selectGender('f')" style="cursor:pointer;border:2px solid var(--border);border-radius:8px;padding:8px;transition:all 0.15s;width:140px" id="gender-f">
+        <img src="https://bakewriter.github.io/SCROLLIA/assets/images/player_f.png" style="width:120px;height:120px;object-fit:contain;image-rendering:pixelated">
+        <div style="color:var(--gold);font-weight:bold;margin-top:6px">女性</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="equip-modal">
   <div class="modal">
     <div class="modal-title" id="equip-modal-title">装備選択</div>
@@ -646,7 +664,10 @@ const AREAS = {
     normal:['wyvern','flame_wyvern','cultist','cultist_officer'], rare:'vice_priest', superRare:'high_priest', boss:'shadow_wyvern' },
 };
 
-const PLAYER_IMAGE = 'https://bakewriter.github.io/SCROLLIA/assets/images/player.png';
+function getPlayerImage() {
+  const g = S.playerGender || 'm';
+  return 'https://bakewriter.github.io/SCROLLIA/assets/images/player_' + g + '.png';
+}
 
 const MONSTER_IMAGES = {
   slime: 'https://bakewriter.github.io/SCROLLIA/assets/images/slime.png',
@@ -789,7 +810,7 @@ window.onFirebaseAuthChanged = async (user) => {
     window._fbLoginTime = new Date();
     dbg('LOGIN: ' + user.displayName);
     const loaded = await fbLoad();
-    if (!loaded) await fbSave();
+    if (!loaded) { await fbSave(); showGenderModal(); }
     await fbSaveProfile();
     const ls = document.getElementById('login-screen');
     if (ls) ls.classList.remove('show');
@@ -1146,6 +1167,7 @@ function DEFAULT_STATE() {
     inventory: [], grimoires: [],
     pets: [], activePets: [], contractBloods: {},
     summonStones: 0,
+    playerGender: null,
   };
 }
 
@@ -1525,7 +1547,7 @@ function renderCombat() {
     <div class="combat-top">
       <div class="combatant">
         <div class="c-name player">あなた</div>
-        <div style="text-align:center;margin:4px 0"><img src="${PLAYER_IMAGE}" style="height:100px;object-fit:contain;image-rendering:pixelated"></div>
+        <div style="text-align:center;margin:4px 0"><img src="${getPlayerImage()}" style="height:100px;object-fit:contain;image-rendering:pixelated"></div>
         <div class="hp-bar-wrap"><div class="hp-bar player" style="width:${hpPct}%"></div></div>
         <div class="c-hp">${S.currentHp} / ${ef.hp}</div>
         ${S.activePets && S.activePets.length > 0 ? '<div style="display:flex;gap:4px;margin-top:6px;justify-content:center;flex-wrap:wrap">' + S.activePets.map(pi => {
@@ -2609,9 +2631,20 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+
+function selectGender(g) {
+  S.playerGender = g;
+  saveGame();
+  document.getElementById('gender-modal').classList.remove('show');
+  render();
+}
+
+function showGenderModal() {
+  document.getElementById('gender-modal').classList.add('show');
+}
 Object.assign(window, {
   switchTab, startExplore, useScroll, fleeCombat, renderExplore, dbg,
-  fbLogin, fbLogout, fbLoadLoginInfo,
+  fbLogin, fbLogout, fbLoadLoginInfo, selectGender, showGenderModal,
   openUserProfile, openDM, dmSend,
   buyScroll, buyEquip, buySummonStone,
   renderBazaar, postBazaar, fbBazaarBuy, fbBazaarCancel, fbBazaarPost, fbSubscribeBazaar,
