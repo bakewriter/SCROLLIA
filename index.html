@@ -102,13 +102,13 @@
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .town-area { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .town-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); border: 1px solid var(--border); border-radius: 6px; padding: 12px 8px; cursor: pointer; transition: all 0.15s; text-align: center; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .town-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+  .town-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); background-image: url('https://bakewriter.github.io/SCROLLIA/assets/images/card_bg.png'); background-size: cover; background-position: center; border: 1px solid var(--border); border-radius: 6px; padding: 12px 8px; cursor: pointer; transition: all 0.15s; text-align: center; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .town-card:hover { border-color: var(--gold); filter: brightness(1.1); }
   .town-card .icon { font-size: 22px; margin-bottom: 2px; }
   .town-card .name { color: var(--gold); font-weight: 900; font-size: 14px; white-space: nowrap; }
   .town-card .desc { color: var(--text2); font-size: 11px; margin-top: 2px; white-space: nowrap; }
 
-  .area-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.15s; }
+  .area-card { background: linear-gradient(135deg, #1e1a2e 0%, #16162a 100%); background-image: url('https://bakewriter.github.io/SCROLLIA/assets/images/card_bg.png'); background-size: cover; background-position: center; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.15s; }
   .area-card:hover { border-color: var(--gold); }
   .area-card .area-icon { font-size: 24px; }
   .area-card .area-info { flex: 1; }
